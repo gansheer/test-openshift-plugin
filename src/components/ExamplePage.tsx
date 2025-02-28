@@ -1,17 +1,94 @@
 import * as React from 'react';
 import Helmet from 'react-helmet';
 import { useTranslation } from 'react-i18next';
-import { NamespaceBar, useActiveNamespace } from '@openshift-console/dynamic-plugin-sdk';
+import { K8sResourceCommon, NamespaceBar, useActiveNamespace, useK8sWatchResources, WatchK8sResources } from '@openshift-console/dynamic-plugin-sdk';
 import { Page, PageSection, Text, TextContent, Title } from '@patternfly/react-core';
 import { CheckCircleIcon } from '@patternfly/react-icons';
 import './example.css';
 
+type ExampleProps = {
+  namespace: string;
+  showTitle?: boolean;
+};
 
-export default function ExamplePage() {
+type ApplicationKind = K8sResourceCommon & {
+  spec?: {
+    camelSpec: string;
+  };
+};
+
+// TODO refactor => move somewhere else
+const deploymentGVK = {
+  group: "apps",
+  kind: "Deployment",
+  version: "v1",
+};
+const deploymentConfigGVK = {
+  group: "apps.openshift.io",
+  kind: "DeploymentConfig",
+  version: "v1",
+};
+const cronJobGVK = {
+  group: "batch",
+  kind: "CronJob",
+  version: "v1",
+};
+
+
+const ExamplePage: React.FC<ExampleProps> = ({
+  namespace,
+  showTitle = true,
+}) => {
   const { t } = useTranslation('plugin__test-openshift-plugin');
-  const [activeNamespace, setActiveNamespace] = useActiveNamespace();
 
+  const [activeNamespace, setActiveNamespace] = useActiveNamespace();
   console.log(`New namespace: ${activeNamespace}`);
+
+  const watchedResources: WatchK8sResources<{
+    deployments: ApplicationKind[];
+    deploymentConfigs: ApplicationKind[];
+    cronJobs: ApplicationKind[];
+  }> = {
+    deployments: {
+      isList: true,
+      groupVersionKind: deploymentGVK,
+      namespaced: true,
+      namespace: activeNamespace,
+      selector: {
+        matchLabels: { ['camel/integration-runtime']: 'camel' },
+      },
+    },
+    deploymentConfigs: {
+      isList: true,
+      groupVersionKind: deploymentConfigGVK,
+      namespaced: true,
+      namespace: activeNamespace,
+      selector: {
+        matchLabels: { ['camel/integration-runtime']: 'camel' },
+      },
+    },
+    cronJobs: {
+      isList: true,
+      groupVersionKind: cronJobGVK,
+      namespaced: true,
+      namespace: activeNamespace,
+      selector: {
+        matchLabels: { ['camel/integration-runtime']: 'camel' },
+      },
+    },
+  };
+
+
+  const resources = useK8sWatchResources<{
+    deployments: ApplicationKind[];
+    deploymentConfigs: ApplicationKind[];
+    cronJobs: ApplicationKind[];
+  }>(watchedResources);
+
+  console.log(">>>>resources<<<<");
+  console.log(resources);
+
+
   
   return (
     <>
@@ -52,3 +129,5 @@ export default function ExamplePage() {
     </>
   );
 }
+
+export default ExamplePage;
