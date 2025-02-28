@@ -9,7 +9,7 @@ module.exports = {
   locales: ['en'],
   namespaceSeparator: '~',
   reactNamespace: false,
-  defaultNamespace: 'plugin__console-plugin-template',
+  defaultNamespace: 'plugin__test-openshift-plugin',
   useKeysAsDefaultValue: true,
 
   // see below for more details

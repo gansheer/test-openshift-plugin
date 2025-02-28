@@ -3,7 +3,7 @@
     "type": "console.page/route",
     "properties": {
       "exact": true,
-      "path": "/example",
+      "path": ["/example/ns/:ns", "/example/all-namespaces"],
       "component": { "$codeRef": "ExamplePage" }
     }
   },
@@ -11,10 +11,11 @@
     "type": "console.navigation/href",
     "properties": {
       "id": "example",
-      "name": "%plugin__console-plugin-template~Plugin Example%",
+      "name": "%plugin__test-openshift-plugin~Plugin Example%",
       "href": "/example",
-      "perspective": "admin",
-      "section": "home"
+      "perspective": "dev",
+      "section": "resources",
+      "namespaced": true
     }
   }
 ]

@@ -1,15 +1,21 @@
 import * as React from 'react';
 import Helmet from 'react-helmet';
 import { useTranslation } from 'react-i18next';
+import { NamespaceBar, useActiveNamespace } from '@openshift-console/dynamic-plugin-sdk';
 import { Page, PageSection, Text, TextContent, Title } from '@patternfly/react-core';
 import { CheckCircleIcon } from '@patternfly/react-icons';
 import './example.css';
 
-export default function ExamplePage() {
-  const { t } = useTranslation('plugin__console-plugin-template');
 
+export default function ExamplePage() {
+  const { t } = useTranslation('plugin__test-openshift-plugin');
+  const [activeNamespace, setActiveNamespace] = useActiveNamespace();
+
+  console.log(`New namespace: ${activeNamespace}`);
+  
   return (
     <>
+      <NamespaceBar onNamespaceChange={namespace => setActiveNamespace(namespace)}/>
       <Helmet>
         <title data-test="example-page-title">{t('Hello, Plugin!')}</title>
       </Helmet>
@@ -20,10 +26,13 @@ export default function ExamplePage() {
         <PageSection variant="light">
           <TextContent>
             <Text component="p">
-              <span className="console-plugin-template__nice">
+              <span className="test-openshift-plugin__nice">
                 <CheckCircleIcon /> {t('Success!')}
               </span>{' '}
               {t('Your plugin is working.')}
+            </Text>
+            <Text component='p'>
+              Namespace used: <b>{activeNamespace}</b>
             </Text>
             <Text component="p">
               {t(
@@ -34,7 +43,7 @@ export default function ExamplePage() {
             </Text>
             <Text component="p">
               {t('After cloning this project, replace references to')}{' '}
-              <code>{t('console-template-plugin')}</code>{' '}
+              <code>{t('test-openshift-plugin')}</code>{' '}
               {t('and other plugin metadata in package.json with values for your plugin.')}
             </Text>
           </TextContent>
