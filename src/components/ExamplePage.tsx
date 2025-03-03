@@ -8,6 +8,8 @@ import './example.css';
 import useResourcesColumns from './useResourcesColumns';
 import ResourcesRow from './ResourcesRow';
 
+// Note : using this as inspiration for the list: https://github.com/openshift-pipelines/console-plugin/blob/main/src/components/projects-list/ProjectsRow.tsx#L91
+
 type ExampleProps = {
   namespace: string;
   showTitle?: boolean;
@@ -94,11 +96,22 @@ const ExamplePage: React.FC<ExampleProps> = ({
   console.log(resources);
 
   const columns = useResourcesColumns();
+  let resourcesData = [
+    ...resources.deploymentConfigs.data,
+    ...resources.deployments.data,
+    ...resources.cronJobs.data,
+  ];
+  console.log(">>>>data<<<<");
+  console.log(resourcesData);
   const [staticData, filteredData, onFilterChange] =
-    useListPageFilter(resources.deploymentConfigs.data);
+    useListPageFilter(resourcesData);
 
-  const resourcesLoaded = resources.deploymentConfigs.loaded;
-  const resourcesLoadError = resources.deploymentConfigs.loadError;
+  const resourcesLoaded = resources.deploymentConfigs.loaded
+    && resources.deployments.loaded
+    && resources.cronJobs.loaded;
+  const resourcesLoadError = resources.deploymentConfigs.loadError
+    + resources.deployments.loadError
+    + resources.cronJobs.loadError;
 
   // {namespace => (namespace === "#ALL_NS#"? setActiveNamespace("all-namespaces"): setActiveNamespace(namespace))}
 
