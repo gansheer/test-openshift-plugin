@@ -1,17 +1,19 @@
 import * as React from 'react';
 import Helmet from 'react-helmet';
 import { useTranslation } from 'react-i18next';
-import { K8sResourceCommon, NamespaceBar, useActiveNamespace, useK8sWatchResources, WatchK8sResources } from '@openshift-console/dynamic-plugin-sdk';
-import { Page, PageSection, Text, TextContent, Title } from '@patternfly/react-core';
+import { K8sResourceKind, ListPageBody, ListPageFilter, ListPageHeader, NamespaceBar, useActiveNamespace, useK8sWatchResources, useListPageFilter, VirtualizedTable, WatchK8sResources } from '@openshift-console/dynamic-plugin-sdk';
+import { Card, CardBody, Page, PageSection, Text, TextContent, Title } from '@patternfly/react-core';
 import { CheckCircleIcon } from '@patternfly/react-icons';
 import './example.css';
+import useResourcesColumns from './useResourcesColumns';
+import ResourcesRow from './ResourcesRow';
 
 type ExampleProps = {
   namespace: string;
   showTitle?: boolean;
 };
 
-type ApplicationKind = K8sResourceCommon & {
+type ApplicationKind = K8sResourceKind & {
   spec?: {
     camelSpec: string;
   };
@@ -42,7 +44,11 @@ const ExamplePage: React.FC<ExampleProps> = ({
   const { t } = useTranslation('plugin__test-openshift-plugin');
 
   const [activeNamespace, setActiveNamespace] = useActiveNamespace();
-  console.log(`New namespace: ${activeNamespace}`);
+
+
+  const filterResourcesNamespace = (activeNamespace: string): string => {
+    return activeNamespace === "#ALL_NS#" ? '' : activeNamespace;
+  };
 
   const watchedResources: WatchK8sResources<{
     deployments: ApplicationKind[];
@@ -53,7 +59,7 @@ const ExamplePage: React.FC<ExampleProps> = ({
       isList: true,
       groupVersionKind: deploymentGVK,
       namespaced: true,
-      namespace: activeNamespace,
+      namespace: filterResourcesNamespace(activeNamespace),
       selector: {
         matchLabels: { ['camel/integration-runtime']: 'camel' },
       },
@@ -62,7 +68,7 @@ const ExamplePage: React.FC<ExampleProps> = ({
       isList: true,
       groupVersionKind: deploymentConfigGVK,
       namespaced: true,
-      namespace: activeNamespace,
+      namespace: filterResourcesNamespace(activeNamespace),
       selector: {
         matchLabels: { ['camel/integration-runtime']: 'camel' },
       },
@@ -71,13 +77,12 @@ const ExamplePage: React.FC<ExampleProps> = ({
       isList: true,
       groupVersionKind: cronJobGVK,
       namespaced: true,
-      namespace: activeNamespace,
+      namespace: filterResourcesNamespace(activeNamespace),
       selector: {
         matchLabels: { ['camel/integration-runtime']: 'camel' },
       },
     },
   };
-
 
   const resources = useK8sWatchResources<{
     deployments: ApplicationKind[];
@@ -88,11 +93,18 @@ const ExamplePage: React.FC<ExampleProps> = ({
   console.log(">>>>resources<<<<");
   console.log(resources);
 
+  const columns = useResourcesColumns();
+  const [staticData, filteredData, onFilterChange] =
+    useListPageFilter(resources.deploymentConfigs.data);
 
-  
+  const resourcesLoaded = resources.deploymentConfigs.loaded;
+  const resourcesLoadError = resources.deploymentConfigs.loadError;
+
+  // {namespace => (namespace === "#ALL_NS#"? setActiveNamespace("all-namespaces"): setActiveNamespace(namespace))}
+
   return (
     <>
-      <NamespaceBar onNamespaceChange={namespace => setActiveNamespace(namespace)}/>
+      <NamespaceBar onNamespaceChange={setActiveNamespace} />
       <Helmet>
         <title data-test="example-page-title">{t('Hello, Plugin!')}</title>
       </Helmet>
@@ -101,16 +113,58 @@ const ExamplePage: React.FC<ExampleProps> = ({
           <Title headingLevel="h1">{t('Hello, Plugin!')}</Title>
         </PageSection>
         <PageSection variant="light">
+          <Card>
+            <CardBody>
+              <ListPageHeader title={'bleah'} />
+
+              <ListPageBody>
+
+              </ListPageBody>
+
+              <ListPageFilter
+                data={staticData}
+                onFilterChange={onFilterChange}
+                loaded={resourcesLoaded}
+              />
+
+              <VirtualizedTable
+                EmptyMsg={() => (
+                  <div
+                    className="pf-v5-u-text-align-center virtualized-table-empty-msg"
+                    id="no-templates-msg"
+                  >
+                    {t('No resources found')}
+                  </div>
+                )}
+                columns={columns}
+                data={filteredData}
+                loaded={resourcesLoaded}
+                loadError={resourcesLoadError}
+                Row={ResourcesRow}
+                unfilteredData={staticData}
+              />
+
+              <TextContent>
+                <Text component="p">
+                  <span className="test-openshift-plugin__nice">
+                    <CheckCircleIcon /> {t('Success!')}
+                  </span>{' '}
+                  {t('Your plugin is working.')}
+                </Text>
+                <Text component='p'>
+                  Namespace used: <b>{activeNamespace}</b>
+                </Text>
+              </TextContent>
+            </CardBody>
+          </Card>
+        </PageSection>
+
+
+
+
+        <PageSection variant="light">
           <TextContent>
-            <Text component="p">
-              <span className="test-openshift-plugin__nice">
-                <CheckCircleIcon /> {t('Success!')}
-              </span>{' '}
-              {t('Your plugin is working.')}
-            </Text>
-            <Text component='p'>
-              Namespace used: <b>{activeNamespace}</b>
-            </Text>
+
             <Text component="p">
               {t(
                 'This is a custom page contributed by the console plugin template. The extension that adds the page is declared in console-extensions.json in the project root along with the corresponding nav item. Update console-extensions.json to change or add extensions. Code references in console-extensions.json must have a corresponding property',
