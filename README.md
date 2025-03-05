@@ -57,7 +57,8 @@ to deploy it to a cluster.
 In one terminal window, run:
 
 1. `yarn install`
-2. `yarn run start`
+2. `yarn build-dev`
+3. `yarn run start`
 
 In another terminal window, run:
 

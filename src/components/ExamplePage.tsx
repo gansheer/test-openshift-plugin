@@ -1,8 +1,27 @@
 import * as React from 'react';
 import Helmet from 'react-helmet';
 import { useTranslation } from 'react-i18next';
-import { K8sResourceKind, ListPageBody, ListPageFilter, ListPageHeader, NamespaceBar, useActiveNamespace, useK8sWatchResources, useListPageFilter, VirtualizedTable, WatchK8sResources } from '@openshift-console/dynamic-plugin-sdk';
-import { Card, CardBody, Page, PageSection, Text, TextContent, Title } from '@patternfly/react-core';
+import {
+  K8sResourceKind,
+  ListPageBody,
+  ListPageFilter,
+  ListPageHeader,
+  NamespaceBar,
+  useActiveNamespace,
+  useK8sWatchResources,
+  useListPageFilter,
+  VirtualizedTable,
+  WatchK8sResources,
+} from '@openshift-console/dynamic-plugin-sdk';
+import {
+  Card,
+  CardBody,
+  Page,
+  PageSection,
+  Text,
+  TextContent,
+  Title,
+} from '@patternfly/react-core';
 import { CheckCircleIcon } from '@patternfly/react-icons';
 import './example.css';
 import useResourcesColumns from './useResourcesColumns';
@@ -23,33 +42,28 @@ type ApplicationKind = K8sResourceKind & {
 
 // TODO refactor => move somewhere else
 const deploymentGVK = {
-  group: "apps",
-  kind: "Deployment",
-  version: "v1",
+  group: 'apps',
+  kind: 'Deployment',
+  version: 'v1',
 };
 const deploymentConfigGVK = {
-  group: "apps.openshift.io",
-  kind: "DeploymentConfig",
-  version: "v1",
+  group: 'apps.openshift.io',
+  kind: 'DeploymentConfig',
+  version: 'v1',
 };
 const cronJobGVK = {
-  group: "batch",
-  kind: "CronJob",
-  version: "v1",
+  group: 'batch',
+  kind: 'CronJob',
+  version: 'v1',
 };
 
-
-const ExamplePage: React.FC<ExampleProps> = ({
-  namespace,
-  showTitle = true,
-}) => {
+const ExamplePage: React.FC<ExampleProps> = ({ namespace, showTitle = true }) => {
   const { t } = useTranslation('plugin__test-openshift-plugin');
 
   const [activeNamespace, setActiveNamespace] = useActiveNamespace();
 
-
   const filterResourcesNamespace = (activeNamespace: string): string => {
-    return activeNamespace === "#ALL_NS#" ? '' : activeNamespace;
+    return activeNamespace === '#ALL_NS#' ? '' : activeNamespace;
   };
 
   const watchedResources: WatchK8sResources<{
@@ -92,26 +106,25 @@ const ExamplePage: React.FC<ExampleProps> = ({
     cronJobs: ApplicationKind[];
   }>(watchedResources);
 
-  console.log(">>>>resources<<<<");
+  console.log('>>>>resources<<<<');
   console.log(resources);
 
   const columns = useResourcesColumns();
-  let resourcesData = [
+  const resourcesData = [
     ...resources.deploymentConfigs.data,
     ...resources.deployments.data,
     ...resources.cronJobs.data,
   ];
-  console.log(">>>>data<<<<");
+  console.log('>>>>data<<<<');
   console.log(resourcesData);
-  const [staticData, filteredData, onFilterChange] =
-    useListPageFilter(resourcesData);
+  const [staticData, filteredData, onFilterChange] = useListPageFilter(resourcesData);
 
-  const resourcesLoaded = resources.deploymentConfigs.loaded
-    && resources.deployments.loaded
-    && resources.cronJobs.loaded;
-  const resourcesLoadError = resources.deploymentConfigs.loadError
-    + resources.deployments.loadError
-    + resources.cronJobs.loadError;
+  const resourcesLoaded =
+    resources.deploymentConfigs.loaded && resources.deployments.loaded && resources.cronJobs.loaded;
+  const resourcesLoadError =
+    resources.deploymentConfigs.loadError +
+    resources.deployments.loadError +
+    resources.cronJobs.loadError;
 
   // {namespace => (namespace === "#ALL_NS#"? setActiveNamespace("all-namespaces"): setActiveNamespace(namespace))}
 
@@ -130,9 +143,7 @@ const ExamplePage: React.FC<ExampleProps> = ({
             <CardBody>
               <ListPageHeader title={'bleah'} />
 
-              <ListPageBody>
-
-              </ListPageBody>
+              <ListPageBody></ListPageBody>
 
               <ListPageFilter
                 data={staticData}
@@ -164,7 +175,7 @@ const ExamplePage: React.FC<ExampleProps> = ({
                   </span>{' '}
                   {t('Your plugin is working.')}
                 </Text>
-                <Text component='p'>
+                <Text component="p">
                   Namespace used: <b>{activeNamespace}</b>
                 </Text>
               </TextContent>
@@ -172,12 +183,8 @@ const ExamplePage: React.FC<ExampleProps> = ({
           </Card>
         </PageSection>
 
-
-
-
         <PageSection variant="light">
           <TextContent>
-
             <Text component="p">
               {t(
                 'This is a custom page contributed by the console plugin template. The extension that adds the page is declared in console-extensions.json in the project root along with the corresponding nav item. Update console-extensions.json to change or add extensions. Code references in console-extensions.json must have a corresponding property',
@@ -195,6 +202,6 @@ const ExamplePage: React.FC<ExampleProps> = ({
       </Page>
     </>
   );
-}
+};
 
 export default ExamplePage;
