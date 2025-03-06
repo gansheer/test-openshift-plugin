@@ -25,7 +25,7 @@ const isModifiedEvent = (event: React.MouseEvent<HTMLElement>) => {
 };
 
 const ResourcesRow: React.FC<RowProps<K8sResourceKind>> = ({ obj: resource, activeColumnIDs }) => {
-  const { t } = useTranslation('plugin__pipelines-console-plugin');
+  const { t } = useTranslation('plugin__test-openshift-plugin');
   const [, setActiveNamespace] = useActiveNamespace();
   const camelVersion = getCamelVersion(resource);
 
