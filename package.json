@@ -10,7 +10,7 @@
   },
   "scripts": {
     "clean": "rm -rf dist",
-    "build": "yarn clean && NODE_ENV=production webpack",
+    "build": "yarn clean && NODE_ENV=production yarn webpack",
     
     "build-dev": "yarn clean && yarn webpack",
     "start": "yarn webpack serve --progress",
