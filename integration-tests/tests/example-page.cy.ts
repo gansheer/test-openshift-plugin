@@ -6,7 +6,7 @@ export const isLocalDevEnvironment = Cypress.config('baseUrl').includes('localho
 
 const installHelmChart = (path: string) => {
   cy.exec(
-    `cd ../../test-openshift-plugin && ${path} upgrade -i ${PLUGIN_TEMPLATE_NAME} charts/openshift-console-plugin -n ${PLUGIN_TEMPLATE_NAME} --create-namespace --set plugin.image=${PLUGIN_TEMPLATE_PULL_SPEC}`,
+    `cd ../../test-openshift-plugin && ${path} upgrade -i ${PLUGIN_TEMPLATE_NAME} charts/test-openshift-plugin -n ${PLUGIN_TEMPLATE_NAME} --create-namespace --set plugin.image=${PLUGIN_TEMPLATE_PULL_SPEC}`,
     {
       failOnNonZeroExit: false,
     },
