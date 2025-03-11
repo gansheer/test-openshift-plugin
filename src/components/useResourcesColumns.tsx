@@ -2,7 +2,7 @@ import { K8sResourceKind, TableColumn } from '@openshift-console/dynamic-plugin-
 import { sortable } from '@patternfly/react-table';
 import { useTranslation } from 'react-i18next';
 
-const useResourcesColumns = (): TableColumn<K8sResourceKind>[] => {
+const useResourcesColumns = (namespace): TableColumn<K8sResourceKind>[] => {
   const { t } = useTranslation('plugin__test-openshift-plugin');
   return [
     {
@@ -17,12 +17,16 @@ const useResourcesColumns = (): TableColumn<K8sResourceKind>[] => {
       sort: 'kind',
       transforms: [sortable],
     },
-    {
-      title: t('Namespace'),
-      id: 'namespace',
-      sort: 'metadata.namespace',
-      transforms: [sortable],
-    },
+    ...(!namespace
+      ? [
+          {
+            title: t('Namespace'),
+            id: 'namespace',
+            sort: 'metadata.namespace',
+            transforms: [sortable],
+          },
+        ]
+      : []),
     {
       title: t('Status'),
       id: 'status',

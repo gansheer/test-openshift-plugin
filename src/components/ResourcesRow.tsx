@@ -1,4 +1,5 @@
 import {
+  getGroupVersionKindForResource,
   K8sResourceKind,
   ResourceIcon,
   RowProps,
@@ -28,6 +29,7 @@ const ResourcesRow: React.FC<RowProps<K8sResourceKind>> = ({ obj: resource, acti
   const { t } = useTranslation('plugin__test-openshift-plugin');
   const [, setActiveNamespace] = useActiveNamespace();
   const camelVersion = getCamelVersion(resource);
+  
 
   const handleClick = (e) => {
     // Don't set last namespace if its modified click (Ctrl+Click).
@@ -49,7 +51,7 @@ const ResourcesRow: React.FC<RowProps<K8sResourceKind>> = ({ obj: resource, acti
     <>
       <TableData id="name" activeColumnIDs={activeColumnIDs}>
         <span className="co-resource-item co-resource-item--truncate">
-          <ResourceIcon kind="DeploymentConfig" />
+          <ResourceIcon groupVersionKind={getGroupVersionKindForResource(resource)} />
           <Link
             to={applicationUrl}
             className="co-resource-item__resource-name"

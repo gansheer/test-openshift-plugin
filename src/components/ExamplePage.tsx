@@ -96,7 +96,7 @@ const ExamplePage: React.FC<ExampleProps> = ({ namespace, showTitle = true }) =>
   }>(watchedResources);
 
 
-  const columns = useResourcesColumns();
+  const columns = useResourcesColumns(filterResourcesNamespace(activeNamespace));
   const resourcesData = [
     ...resources.deploymentConfigs.data,
     ...resources.deployments.data,
