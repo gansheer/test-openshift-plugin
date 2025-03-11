@@ -81,7 +81,7 @@
     "displayName": "Test OpenShift Plugin",
     "description": "Template project for OpenShift Console plugins. Edit package.json to change this message and the plugin name.",
     "exposedModules": {
-      "ExamplePage": "./components/ExamplePage"
+      "CamelApplicationList": "./components/CamelApplicationList"
     },
     "dependencies": {
       "@console/pluginAPI": "*"

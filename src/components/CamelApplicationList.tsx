@@ -12,18 +12,18 @@ import {
   VirtualizedTable,
   WatchK8sResources,
 } from '@openshift-console/dynamic-plugin-sdk';
-import './example.css';
-import useResourcesColumns from './useResourcesColumns';
-import ResourcesRow from './ResourcesRow';
+import './camel.css';
+import CamelApplicationRow from './CamelApplicationRow';
+import useCamelApplicationsColumns from './useCamelApplicationsColumns';
 
 // Note : using this as inspiration for the list: https://github.com/openshift-pipelines/console-plugin/blob/main/src/components/projects-list/ProjectsRow.tsx#L91
 
-type ExampleProps = {
+type CamelApplicationProps = {
   namespace: string;
   showTitle?: boolean;
 };
 
-type ApplicationKind = K8sResourceKind & {
+type CamelApplicationKind = K8sResourceKind & {
   spec?: {
     camelSpec: string;
   };
@@ -32,39 +32,39 @@ type ApplicationKind = K8sResourceKind & {
 // TODO refactor => move somewhere else
 const deploymentGVK = {
   group: 'apps',
-  kind: 'Deployment',
   version: 'v1',
+  kind: 'Deployment',
 };
 const deploymentConfigGVK = {
   group: 'apps.openshift.io',
-  kind: 'DeploymentConfig',
   version: 'v1',
+  kind: 'DeploymentConfig',
 };
 const cronJobGVK = {
   group: 'batch',
-  kind: 'CronJob',
   version: 'v1',
+  kind: 'CronJob',
 };
 
-const ExamplePage: React.FC<ExampleProps> = ({ namespace, showTitle = true }) => {
+const CamelApplicationList: React.FC<CamelApplicationProps> = ({ namespace, showTitle = true }) => {
   const { t } = useTranslation('plugin__test-openshift-plugin');
 
   const [activeNamespace, setActiveNamespace] = useActiveNamespace();
 
-  const filterResourcesNamespace = (activeNamespace: string): string => {
+  const filterCamelApplicationsNamespace = (activeNamespace: string): string => {
     return activeNamespace === '#ALL_NS#' ? '' : activeNamespace;
   };
 
   const watchedResources: WatchK8sResources<{
-    deployments: ApplicationKind[];
-    deploymentConfigs: ApplicationKind[];
-    cronJobs: ApplicationKind[];
+    deployments: CamelApplicationKind[];
+    deploymentConfigs: CamelApplicationKind[];
+    cronJobs: CamelApplicationKind[];
   }> = {
     deployments: {
       isList: true,
       groupVersionKind: deploymentGVK,
       namespaced: true,
-      namespace: filterResourcesNamespace(activeNamespace),
+      namespace: filterCamelApplicationsNamespace(activeNamespace),
       selector: {
         matchLabels: { ['camel/integration-runtime']: 'camel' },
       },
@@ -73,7 +73,7 @@ const ExamplePage: React.FC<ExampleProps> = ({ namespace, showTitle = true }) =>
       isList: true,
       groupVersionKind: deploymentConfigGVK,
       namespaced: true,
-      namespace: filterResourcesNamespace(activeNamespace),
+      namespace: filterCamelApplicationsNamespace(activeNamespace),
       selector: {
         matchLabels: { ['camel/integration-runtime']: 'camel' },
       },
@@ -82,7 +82,7 @@ const ExamplePage: React.FC<ExampleProps> = ({ namespace, showTitle = true }) =>
       isList: true,
       groupVersionKind: cronJobGVK,
       namespaced: true,
-      namespace: filterResourcesNamespace(activeNamespace),
+      namespace: filterCamelApplicationsNamespace(activeNamespace),
       selector: {
         matchLabels: { ['camel/integration-runtime']: 'camel' },
       },
@@ -90,13 +90,13 @@ const ExamplePage: React.FC<ExampleProps> = ({ namespace, showTitle = true }) =>
   };
 
   const resources = useK8sWatchResources<{
-    deployments: ApplicationKind[];
-    deploymentConfigs: ApplicationKind[];
-    cronJobs: ApplicationKind[];
+    deployments: CamelApplicationKind[];
+    deploymentConfigs: CamelApplicationKind[];
+    cronJobs: CamelApplicationKind[];
   }>(watchedResources);
 
 
-  const columns = useResourcesColumns(filterResourcesNamespace(activeNamespace));
+  const columns = useCamelApplicationsColumns(filterCamelApplicationsNamespace(activeNamespace));
   const resourcesData = [
     ...resources.deploymentConfigs.data,
     ...resources.deployments.data,
@@ -142,7 +142,7 @@ const ExamplePage: React.FC<ExampleProps> = ({ namespace, showTitle = true }) =>
           data={filteredData}
           loaded={resourcesLoaded}
           loadError={resourcesLoadError}
-          Row={ResourcesRow}
+          Row={CamelApplicationRow}
           unfilteredData={staticData}
         />
       </ListPageBody>
@@ -151,4 +151,4 @@ const ExamplePage: React.FC<ExampleProps> = ({ namespace, showTitle = true }) =>
   );
 };
 
-export default ExamplePage;
+export default CamelApplicationList;

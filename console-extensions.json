@@ -3,16 +3,16 @@
     "type": "console.page/route",
     "properties": {
       "exact": true,
-      "path": ["/example/ns/:ns", "/example/all-namespaces"],
-      "component": { "$codeRef": "ExamplePage" }
+      "path": ["/camel/ns/:ns", "/camel/all-namespaces"],
+      "component": { "$codeRef": "CamelApplicationList" }
     }
   },
   {
     "type": "console.navigation/href",
     "properties": {
-      "id": "example",
-      "name": "%plugin__test-openshift-plugin~Plugin Example%",
-      "href": "/example",
+      "id": "camel",
+      "name": "%plugin__test-openshift-plugin~Camel%",
+      "href": "/camel",
       "perspective": "dev",
       "section": "resources",
       "namespaced": true

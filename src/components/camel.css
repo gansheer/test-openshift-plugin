@@ -5,3 +5,8 @@
    * https://patternfly-react-main.surge.sh/developer-resources/global-css-variables */
   color: var(--pf-global--palette--blue-400);
 }
+
+/*; Using '$color-secret-dark: #c46100;', need scss */ 
+.co-m-resource-camelapplication {
+  background-color: #c46100;
+};
