@@ -31,7 +31,7 @@ const useCamelApplicationsColumns = (namespace): TableColumn<K8sResourceKind>[] 
       title: t('Status'),
       id: 'status',
       sort: 'status.phase',
-      transforms: [sortable],
+      transforms: [],
     },
     {
       title: t('Camel'),
