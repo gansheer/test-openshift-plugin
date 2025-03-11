@@ -6,7 +6,7 @@ import Status from '@openshift-console/dynamic-plugin-sdk/lib/app/components/sta
 //import { useTranslation } from "react-i18next";
 
 const CamelApplicationStatus = ({ camelApp }: { camelApp: K8sResourceKind }) => {
-    // Use correct values for Succeded and Failed
+    // Use translated values for Succeded and Failed
     //const { t } = useTranslation('plugin__test-openshift-plugin');
   
     if (camelApp.kind == 'Deployment' || camelApp.kind == 'DeploymentConfig'){

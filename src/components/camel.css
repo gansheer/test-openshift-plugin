@@ -6,7 +6,7 @@
   color: var(--pf-global--palette--blue-400);
 }
 
-/*; Using '$color-secret-dark: #c46100;', need scss */ 
+/*; Using '$color-secret-dark: #c46100;' would be better, need scss */ 
 .co-m-resource-camelapplication {
   background-color: #c46100;
 };

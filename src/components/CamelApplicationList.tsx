@@ -15,6 +15,7 @@ import {
 import './camel.css';
 import CamelApplicationRow from './CamelApplicationRow';
 import useCamelApplicationsColumns from './useCamelApplicationsColumns';
+import { cronJobGVK, deploymentConfigGVK, deploymentGVK } from '../const';
 
 // Note : using this as inspiration for the list: https://github.com/openshift-pipelines/console-plugin/blob/main/src/components/projects-list/ProjectsRow.tsx#L91
 
@@ -23,27 +24,11 @@ type CamelApplicationProps = {
   showTitle?: boolean;
 };
 
+// See how to enrich camelSpec
 type CamelApplicationKind = K8sResourceKind & {
   spec?: {
     camelSpec: string;
   };
-};
-
-// TODO refactor => move somewhere else
-const deploymentGVK = {
-  group: 'apps',
-  version: 'v1',
-  kind: 'Deployment',
-};
-const deploymentConfigGVK = {
-  group: 'apps.openshift.io',
-  version: 'v1',
-  kind: 'DeploymentConfig',
-};
-const cronJobGVK = {
-  group: 'batch',
-  version: 'v1',
-  kind: 'CronJob',
 };
 
 const CamelApplicationList: React.FC<CamelApplicationProps> = ({ namespace, showTitle = true }) => {
