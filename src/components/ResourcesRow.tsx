@@ -1,24 +1,23 @@
 import {
   getGroupVersionKindForResource,
   K8sResourceKind,
-  ResourceIcon,
+  ResourceLink,
   RowProps,
   TableData,
   Timestamp,
   useActiveNamespace,
 } from '@openshift-console/dynamic-plugin-sdk';
-import Status from '@openshift-console/dynamic-plugin-sdk/lib/app/components/status/Status';
-//import _ from 'lodash';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom-v5-compat';
-//import { formatNamespaceRoute } from '../pipelines-overview/utils';
+import ResourceStatus from './ResourceStatus';
 
 const getKind = (obj) => obj.kind;
 const getNamespace = (obj) => obj.metadata?.namespace;
 
 const getCamelVersion = (obj: K8sResourceKind): string =>
   obj.metadata.annotations?.['camel/camel-core-version'];
+
 
 // Check for a modified mouse event. For example - Ctrl + Click
 const isModifiedEvent = (event: React.MouseEvent<HTMLElement>) => {
@@ -51,7 +50,6 @@ const ResourcesRow: React.FC<RowProps<K8sResourceKind>> = ({ obj: resource, acti
     <>
       <TableData id="name" activeColumnIDs={activeColumnIDs}>
         <span className="co-resource-item co-resource-item--truncate">
-          <ResourceIcon groupVersionKind={getGroupVersionKindForResource(resource)} />
           <Link
             to={applicationUrl}
             className="co-resource-item__resource-name"
@@ -63,7 +61,12 @@ const ResourcesRow: React.FC<RowProps<K8sResourceKind>> = ({ obj: resource, acti
       </TableData>
       <TableData id="kind" activeColumnIDs={activeColumnIDs}>
         <span className="co-break-word co-line-clamp">
-          {getKind(resource) || <span className="text-muted">{t('No kind')}</span>}
+          <ResourceLink
+            displayName={getKind(resource)}
+            groupVersionKind={getGroupVersionKindForResource(resource)}
+            name={resource.metadata.name}
+            namespace={resource.metadata.namespace}
+          />
         </span>
       </TableData>
       <TableData id="namespace" activeColumnIDs={activeColumnIDs}>
@@ -72,7 +75,7 @@ const ResourcesRow: React.FC<RowProps<K8sResourceKind>> = ({ obj: resource, acti
         </span>
       </TableData>
       <TableData id="status" activeColumnIDs={activeColumnIDs}>
-        <Status status={resource.status?.phase} />
+        <ResourceStatus resource={resource}/>
       </TableData>
       <TableData id="camel" activeColumnIDs={activeColumnIDs}>
         {camelVersion || <span className="text-muted">{t('No camel version')}</span>}

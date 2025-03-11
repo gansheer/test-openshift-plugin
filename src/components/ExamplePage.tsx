@@ -112,8 +112,6 @@ const ExamplePage: React.FC<ExampleProps> = ({ namespace, showTitle = true }) =>
     resources.deployments.loadError +
     resources.cronJobs.loadError;
 
-  // {namespace => (namespace === "#ALL_NS#"? setActiveNamespace("all-namespaces"): setActiveNamespace(namespace))}
-
   // TODO add filters
 
   return (
