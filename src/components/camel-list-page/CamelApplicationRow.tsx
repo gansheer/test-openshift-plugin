@@ -25,7 +25,7 @@ import {
   };
   
   const ResourcesRow: React.FC<RowProps<K8sResourceKind>> = ({ obj: camelApp, activeColumnIDs }) => {
-    const { t } = useTranslation('plugin__test-openshift-plugin');
+    const { t } = useTranslation('plugin__camel-openshift-console-plugin');
     const [, setActiveNamespace] = useActiveNamespace();
     const camelVersion = getCamelVersion(camelApp);
     

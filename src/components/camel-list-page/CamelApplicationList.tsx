@@ -32,7 +32,7 @@ type CamelApplicationKind = K8sResourceKind & {
 };
 
 const CamelApplicationList: React.FC<CamelApplicationProps> = ({ namespace, showTitle = true }) => {
-  const { t } = useTranslation('plugin__test-openshift-plugin');
+  const { t } = useTranslation('plugin__camel-openshift-console-plugin');
 
   const [activeNamespace, setActiveNamespace] = useActiveNamespace();
 
