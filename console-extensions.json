@@ -11,7 +11,7 @@
     "type": "console.navigation/href",
     "properties": {
       "id": "camel",
-      "name": "%plugin__console-plugin-template~Camel%",
+      "name": "%plugin__camel-openshift-console-plugin~Camel%",
       "href": "/camel",
       "perspective": "dev",
       "section": "resources",

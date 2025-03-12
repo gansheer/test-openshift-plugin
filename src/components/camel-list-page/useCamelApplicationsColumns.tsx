@@ -3,7 +3,7 @@ import { sortable } from '@patternfly/react-table';
 import { useTranslation } from 'react-i18next';
 
 const useCamelApplicationsColumns = (namespace): TableColumn<K8sResourceKind>[] => {
-  const { t } = useTranslation('plugin__test-openshift-plugin');
+  const { t } = useTranslation('plugin__camel-openshift-console-plugin');
   return [
     {
       title: t('Name'),
