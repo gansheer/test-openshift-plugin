@@ -9,7 +9,7 @@ import {
   } from '@openshift-console/dynamic-plugin-sdk';
   import * as React from 'react';
   import { useTranslation } from 'react-i18next';
-  import { Link } from 'react-router-dom-v5-compat';
+  import { Link } from 'react-router-dom';
   import CamelApplicationStatus from './CamelApplicationStatus';
   
   const getKind = (obj) => obj.kind;
@@ -37,23 +37,16 @@ import {
       }
       setActiveNamespace(camelApp.metadata.name);
     };
-  
-    const applicationUrl =
-      '/camel/application/' +
-      camelApp.metadata.namespace +
-      '/' +
-      camelApp.kind +
-      '/' +
-      camelApp.metadata.name;
-  
+    
     return (
       <>
         <TableData id="name" activeColumnIDs={activeColumnIDs}>
           <span className="co-resource-item co-resource-item--truncate">
             <span className="co-m-resource-icon co-m-resource-camelapplication" title="CamelApplication">C</span>
             <Link
-              to={applicationUrl}
+              to={`/camel/application/ns/${camelApp.metadata.namespace}/kind/${camelApp.kind}/name/${camelApp.metadata.name}`}
               className="co-resource-item__resource-name"
+              title={camelApp.metadata.name}
               onClick={handleClick}
             >
               {camelApp.metadata.name}
