@@ -3,18 +3,19 @@
     "type": "console.page/route",
     "properties": {
       "exact": true,
-      "path": "/example",
-      "component": { "$codeRef": "ExamplePage" }
+      "path": ["/camel/ns/:ns", "/camel/all-namespaces"],
+      "component": { "$codeRef": "CamelApplicationList" }
     }
   },
   {
     "type": "console.navigation/href",
     "properties": {
-      "id": "example",
-      "name": "%plugin__console-plugin-template~Plugin Example%",
-      "href": "/example",
-      "perspective": "admin",
-      "section": "home"
+      "id": "camel",
+      "name": "%plugin__console-plugin-template~Camel%",
+      "href": "/camel",
+      "perspective": "dev",
+      "section": "resources",
+      "namespaced": true
     }
   }
 ]
