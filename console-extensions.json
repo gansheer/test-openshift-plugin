@@ -2,6 +2,14 @@
   {
     "type": "console.page/route",
     "properties": {
+      "exact": false,
+      "path": "/camel/application/ns/:ns/kind/:kind/name/:name",
+      "component": { "$codeRef": "CamelApplication" }
+    }
+  },
+  {
+    "type": "console.page/route",
+    "properties": {
       "exact": true,
       "path": ["/camel/ns/:ns", "/camel/all-namespaces"],
       "component": { "$codeRef": "CamelApplicationList" }

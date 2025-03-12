@@ -20,9 +20,10 @@ import { cronJobGVK, deploymentConfigGVK, deploymentGVK } from '../../const';
 // Note : using this as inspiration for the list: https://github.com/openshift-pipelines/console-plugin/blob/main/src/components/projects-list/ProjectsRow.tsx#L91
 
 type CamelApplicationProps = {
-  namespace: string;
+  ns: string;
   showTitle?: boolean;
 };
+
 
 // See how to enrich camelSpec
 type CamelApplicationKind = K8sResourceKind & {
@@ -31,7 +32,7 @@ type CamelApplicationKind = K8sResourceKind & {
   };
 };
 
-const CamelApplicationList: React.FC<CamelApplicationProps> = ({ namespace, showTitle = true }) => {
+const CamelApplicationList: React.FC<CamelApplicationProps> = ({ ns, showTitle = true }) => {
   const { t } = useTranslation('plugin__camel-openshift-console-plugin');
 
   const [activeNamespace, setActiveNamespace] = useActiveNamespace();
