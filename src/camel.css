@@ -6,7 +6,8 @@
     color: var(--pf-global--palette--blue-400);
   }
   
+  /* TODO change with a camel icon */
   /*; Using '$color-secret-dark: #c46100;' would be better, need scss */ 
-  .co-m-resource-camelapplication {
+  .co-m-resource-camelintegration {
     background-color: #c46100;
   };

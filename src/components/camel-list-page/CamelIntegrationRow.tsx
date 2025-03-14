@@ -10,7 +10,7 @@ import {
   import * as React from 'react';
   import { useTranslation } from 'react-i18next';
   import { Link } from 'react-router-dom';
-  import CamelApplicationStatus from './CamelApplicationStatus';
+  import CamelIntegrationStatus from './CamelIntegrationStatus';
   
   const getKind = (obj) => obj.kind;
   const getNamespace = (obj) => obj.metadata?.namespace;
@@ -24,10 +24,10 @@ import {
     return !!(event.metaKey || event.altKey || event.ctrlKey || event.shiftKey);
   };
   
-  const ResourcesRow: React.FC<RowProps<K8sResourceKind>> = ({ obj: camelApp, activeColumnIDs }) => {
+  const ResourcesRow: React.FC<RowProps<K8sResourceKind>> = ({ obj: camelInt, activeColumnIDs }) => {
     const { t } = useTranslation('plugin__camel-openshift-console-plugin');
     const [, setActiveNamespace] = useActiveNamespace();
-    const camelVersion = getCamelVersion(camelApp);
+    const camelVersion = getCamelVersion(camelInt);
     
   
     const handleClick = (e) => {
@@ -35,47 +35,47 @@ import {
       if (isModifiedEvent(e)) {
         return;
       }
-      setActiveNamespace(camelApp.metadata.name);
+      setActiveNamespace(camelInt.metadata.name);
     };
     
     return (
       <>
         <TableData id="name" activeColumnIDs={activeColumnIDs}>
           <span className="co-resource-item co-resource-item--truncate">
-            <span className="co-m-resource-icon co-m-resource-camelapplication" title="CamelApplication">C</span>
+            <span className="co-m-resource-icon co-m-resource-camelintegration" title="camelIntegration">C</span>
             <Link
-              to={`/camel/application/ns/${camelApp.metadata.namespace}/kind/${camelApp.kind}/name/${camelApp.metadata.name}`}
+              to={`/camel/integration/ns/${camelInt.metadata.namespace}/kind/${camelInt.kind}/name/${camelInt.metadata.name}`}
               className="co-resource-item__resource-name"
-              title={camelApp.metadata.name}
+              title={camelInt.metadata.name}
               onClick={handleClick}
             >
-              {camelApp.metadata.name}
+              {camelInt.metadata.name}
             </Link>
           </span>
         </TableData>
         <TableData id="kind" activeColumnIDs={activeColumnIDs}>
           <span className="co-break-word co-line-clamp">
             <ResourceLink
-              displayName={getKind(camelApp)}
-              groupVersionKind={getGroupVersionKindForResource(camelApp)}
-              name={camelApp.metadata.name}
-              namespace={camelApp.metadata.namespace}
+              displayName={getKind(camelInt)}
+              groupVersionKind={getGroupVersionKindForResource(camelInt)}
+              name={camelInt.metadata.name}
+              namespace={camelInt.metadata.namespace}
             />
           </span>
         </TableData>
         <TableData id="namespace" activeColumnIDs={activeColumnIDs}>
           <span className="co-break-word co-line-clamp">
-            {getNamespace(camelApp) || <span className="text-muted">{t('No namespace')}</span>}
+            {getNamespace(camelInt) || <span className="text-muted">{t('No namespace')}</span>}
           </span>
         </TableData>
         <TableData id="status" activeColumnIDs={activeColumnIDs}>
-          <CamelApplicationStatus camelApp={camelApp}/>
+          <CamelIntegrationStatus camelInt={camelInt}/>
         </TableData>
         <TableData id="camel" activeColumnIDs={activeColumnIDs}>
           {camelVersion || <span className="text-muted">{t('No camel version')}</span>}
         </TableData>
         <TableData id="created" activeColumnIDs={activeColumnIDs}>
-          <Timestamp timestamp={camelApp.metadata.creationTimestamp} />
+          <Timestamp timestamp={camelInt.metadata.creationTimestamp} />
         </TableData>
       </>
     );

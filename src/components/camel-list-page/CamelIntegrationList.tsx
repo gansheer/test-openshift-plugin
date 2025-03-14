@@ -13,44 +13,44 @@ import {
   WatchK8sResources,
 } from '@openshift-console/dynamic-plugin-sdk';
 import '../../camel.css';
-import CamelApplicationRow from './CamelApplicationRow';
-import useCamelApplicationsColumns from './useCamelApplicationsColumns';
+import CamelIntegrationRow from './CamelIntegrationRow';
+import useCamelIntegrationColumns from './useCamelIntegrationColumns';
 import { cronJobGVK, deploymentConfigGVK, deploymentGVK } from '../../const';
 
 // Note : using this as inspiration for the list: https://github.com/openshift-pipelines/console-plugin/blob/main/src/components/projects-list/ProjectsRow.tsx#L91
 
-type CamelApplicationProps = {
+type CamelIntegrationProps = {
   ns: string;
   showTitle?: boolean;
 };
 
 
 // See how to enrich camelSpec
-type CamelApplicationKind = K8sResourceKind & {
+type CamelIntegrationKind = K8sResourceKind & {
   spec?: {
     camelSpec: string;
   };
 };
 
-const CamelApplicationList: React.FC<CamelApplicationProps> = ({ ns, showTitle = true }) => {
+const CamelIntegrationList: React.FC<CamelIntegrationProps> = ({ ns, showTitle = true }) => {
   const { t } = useTranslation('plugin__camel-openshift-console-plugin');
 
   const [activeNamespace, setActiveNamespace] = useActiveNamespace();
 
-  const filterCamelApplicationsNamespace = (activeNamespace: string): string => {
+  const filterCamelIntegrationsNamespace = (activeNamespace: string): string => {
     return activeNamespace === '#ALL_NS#' ? '' : activeNamespace;
   };
 
   const watchedResources: WatchK8sResources<{
-    deployments: CamelApplicationKind[];
-    deploymentConfigs: CamelApplicationKind[];
-    cronJobs: CamelApplicationKind[];
+    deployments: CamelIntegrationKind[];
+    deploymentConfigs: CamelIntegrationKind[];
+    cronJobs: CamelIntegrationKind[];
   }> = {
     deployments: {
       isList: true,
       groupVersionKind: deploymentGVK,
       namespaced: true,
-      namespace: filterCamelApplicationsNamespace(activeNamespace),
+      namespace: filterCamelIntegrationsNamespace(activeNamespace),
       selector: {
         matchLabels: { ['camel/integration-runtime']: 'camel' },
       },
@@ -59,7 +59,7 @@ const CamelApplicationList: React.FC<CamelApplicationProps> = ({ ns, showTitle =
       isList: true,
       groupVersionKind: deploymentConfigGVK,
       namespaced: true,
-      namespace: filterCamelApplicationsNamespace(activeNamespace),
+      namespace: filterCamelIntegrationsNamespace(activeNamespace),
       selector: {
         matchLabels: { ['camel/integration-runtime']: 'camel' },
       },
@@ -68,7 +68,7 @@ const CamelApplicationList: React.FC<CamelApplicationProps> = ({ ns, showTitle =
       isList: true,
       groupVersionKind: cronJobGVK,
       namespaced: true,
-      namespace: filterCamelApplicationsNamespace(activeNamespace),
+      namespace: filterCamelIntegrationsNamespace(activeNamespace),
       selector: {
         matchLabels: { ['camel/integration-runtime']: 'camel' },
       },
@@ -76,13 +76,13 @@ const CamelApplicationList: React.FC<CamelApplicationProps> = ({ ns, showTitle =
   };
 
   const resources = useK8sWatchResources<{
-    deployments: CamelApplicationKind[];
-    deploymentConfigs: CamelApplicationKind[];
-    cronJobs: CamelApplicationKind[];
+    deployments: CamelIntegrationKind[];
+    deploymentConfigs: CamelIntegrationKind[];
+    cronJobs: CamelIntegrationKind[];
   }>(watchedResources);
 
 
-  const columns = useCamelApplicationsColumns(filterCamelApplicationsNamespace(activeNamespace));
+  const columns = useCamelIntegrationColumns(filterCamelIntegrationsNamespace(activeNamespace));
   const resourcesData = [
     ...resources.deploymentConfigs.data,
     ...resources.deployments.data,
@@ -128,7 +128,7 @@ const CamelApplicationList: React.FC<CamelApplicationProps> = ({ ns, showTitle =
           data={filteredData}
           loaded={resourcesLoaded}
           loadError={resourcesLoadError}
-          Row={CamelApplicationRow}
+          Row={CamelIntegrationRow}
           unfilteredData={staticData}
         />
       </ListPageBody>
@@ -137,4 +137,4 @@ const CamelApplicationList: React.FC<CamelApplicationProps> = ({ ns, showTitle =
   );
 };
 
-export default CamelApplicationList;
+export default CamelIntegrationList;

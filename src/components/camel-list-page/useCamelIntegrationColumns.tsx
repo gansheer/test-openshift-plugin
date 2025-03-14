@@ -2,7 +2,7 @@ import { K8sResourceKind, TableColumn } from '@openshift-console/dynamic-plugin-
 import { sortable } from '@patternfly/react-table';
 import { useTranslation } from 'react-i18next';
 
-const useCamelApplicationsColumns = (namespace): TableColumn<K8sResourceKind>[] => {
+const useCamelIntegrationColumns = (namespace): TableColumn<K8sResourceKind>[] => {
   const { t } = useTranslation('plugin__camel-openshift-console-plugin');
   return [
     {
@@ -48,4 +48,4 @@ const useCamelApplicationsColumns = (namespace): TableColumn<K8sResourceKind>[] 
   ];
 };
 
-export default useCamelApplicationsColumns;
+export default useCamelIntegrationColumns;
