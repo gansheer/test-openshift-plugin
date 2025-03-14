@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import {
-  K8sResourceKind,
   ListPageBody,
   ListPageFilter,
   ListPageHeader,
@@ -16,20 +15,13 @@ import '../../camel.css';
 import CamelIntegrationRow from './CamelIntegrationRow';
 import useCamelIntegrationColumns from './useCamelIntegrationColumns';
 import { cronJobGVK, deploymentConfigGVK, deploymentGVK } from '../../const';
+import { CamelIntegrationKind } from '../../types';
 
 // Note : using this as inspiration for the list: https://github.com/openshift-pipelines/console-plugin/blob/main/src/components/projects-list/ProjectsRow.tsx#L91
 
 type CamelIntegrationProps = {
   ns: string;
   showTitle?: boolean;
-};
-
-
-// See how to enrich camelSpec
-type CamelIntegrationKind = K8sResourceKind & {
-  spec?: {
-    camelSpec: string;
-  };
 };
 
 const CamelIntegrationList: React.FC<CamelIntegrationProps> = ({ ns, showTitle = true }) => {
