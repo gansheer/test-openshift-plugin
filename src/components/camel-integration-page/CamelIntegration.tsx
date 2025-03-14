@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom-v5-compat';
 import * as React from 'react';
 
 
-const CamelApplication: React.FC = () => {
+const CamelIntegration: React.FC = () => {
     const {
         name,
         ns: namespace,
@@ -22,4 +22,4 @@ const CamelApplication: React.FC = () => {
     </>);
 };
 
-export default CamelApplication;
+export default CamelIntegration;

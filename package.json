@@ -77,8 +77,8 @@
     "displayName": "Camel OpenShift Console Plugin",
     "description": "Camel OpenShift Console Plugin.",
     "exposedModules": {
-      "CamelApplicationList": "./components/camel-list-page/CamelApplicationList",
-      "CamelApplication": "./components/camel-application-page/CamelApplication"
+      "CamelIntegrationList": "./components/camel-list-page/CamelIntegrationList",
+      "CamelIntegration": "./components/camel-integration-page/CamelIntegration"
     },
     "dependencies": {
       "@console/pluginAPI": "*"
