@@ -2,7 +2,7 @@ import { useK8sWatchResource } from "@openshift-console/dynamic-plugin-sdk";
 import { camelIntegrationGVK } from "../../utils";
 import { CamelIntegrationKind } from "../../types";
 
-export const useGetCamelIntegration = (
+export const useCamelIntegration = (
     name: string,
     namespace: string,
     kind: string,
