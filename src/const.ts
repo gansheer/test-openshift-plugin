@@ -30,3 +30,5 @@ export const cronJobGVK = {
   version: 'v1',
   kind: 'CronJob',
 };
+
+export const ALL_NAMESPACES_KEY = '#ALL_NS#';

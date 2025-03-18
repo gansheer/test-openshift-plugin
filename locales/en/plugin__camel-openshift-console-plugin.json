@@ -1,5 +1,7 @@
 {
+  "C": "C",
   "Camel": "Camel",
+  "Camel Details": "Camel Details",
   "Created": "Created",
   "Details": "Details",
   "Integration": "Integration",
@@ -10,5 +12,6 @@
   "No camel version": "No camel version",
   "No namespace": "No namespace",
   "No resources found": "No resources found",
+  "No version": "No version",
   "Status": "Status"
 }
