@@ -3,11 +3,10 @@ import { Spinner } from '@patternfly/react-core';
 import { useParams } from 'react-router-dom-v5-compat';
 import { HorizontalNav } from '@openshift-console/dynamic-plugin-sdk';
 import { useCamelIntegration } from './useCamelIntegration';
-//import { useTranslation } from 'react-i18next';
 import { useCamelIntegrationTabs } from './useCamelIntegrationTabs';
+import CamelIntegrationTitle from './CamelIntegrationTitle';
 
 const CamelIntegration: React.FC = () => {
-  //const { t } = useTranslation('plugin__camel-openshift-console-plugin');
   const {
     ns: namespace,
     name,
@@ -26,18 +25,20 @@ const CamelIntegration: React.FC = () => {
   if (isLoading) {
     return (
       <>
-        <Spinner aria-label="Loading" />
+        <CamelIntegrationTitle name={name} namespace={namespace} />
+        <Spinner />
       </>
     );
   }
 
   // TODO A common error component
   if (error) {
-    return <>error</>;
+    return <>{error}</>;
   }
 
   return (
     <>
+      <CamelIntegrationTitle name={name} namespace={namespace} />
       <HorizontalNav pages={pages} />
     </>
   );

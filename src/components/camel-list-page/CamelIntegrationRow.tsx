@@ -6,7 +6,6 @@ import {
   RowProps,
   TableData,
   Timestamp,
-  useActiveNamespace,
 } from '@openshift-console/dynamic-plugin-sdk';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
@@ -25,15 +24,14 @@ const isModifiedEvent = (event: React.MouseEvent<HTMLElement>) => {
 
 const ResourcesRow: React.FC<RowProps<K8sResourceKind>> = ({ obj: camelInt, activeColumnIDs }) => {
   const { t } = useTranslation('plugin__camel-openshift-console-plugin');
-  const [, setActiveNamespace] = useActiveNamespace();
   const camelVersion = getCamelVersion(camelInt);
 
+  // Dead code ?
   const handleClick = (e) => {
     // Don't set last namespace if its modified click (Ctrl+Click).
     if (isModifiedEvent(e)) {
       return;
     }
-    setActiveNamespace(camelInt.metadata.name);
   };
 
   return (

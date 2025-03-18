@@ -13,6 +13,7 @@ import '../../camel.css';
 import CamelIntegrationRow from './CamelIntegrationRow';
 import useCamelIntegrationColumns from './useCamelIntegrationColumns';
 import { useCamelIntegrationList } from './useCamelIntegrationList';
+import { ALL_NAMESPACES_KEY } from '../../const';
 
 // Note : using this as inspiration for the list: https://github.com/openshift-pipelines/console-plugin/blob/main/src/components/projects-list/ProjectsRow.tsx#L91
 
@@ -27,7 +28,7 @@ const CamelIntegrationList: React.FC<CamelIntegrationProps> = ({ ns, showTitle =
   const [activeNamespace, setActiveNamespace] = useActiveNamespace();
 
   const filterCamelIntegrationsNamespace = (activeNamespace: string): string => {
-    return activeNamespace === '#ALL_NS#' ? '' : activeNamespace;
+    return activeNamespace === ALL_NAMESPACES_KEY ? '' : activeNamespace;
   };
 
   const columns = useCamelIntegrationColumns(filterCamelIntegrationsNamespace(activeNamespace));
@@ -43,7 +44,7 @@ const CamelIntegrationList: React.FC<CamelIntegrationProps> = ({ ns, showTitle =
     <>
       <NamespaceBar onNamespaceChange={setActiveNamespace} />
 
-      <ListPageHeader title={'Camel'} />
+      <ListPageHeader title={t('Camel')} />
 
       <ListPageBody>
         <ListPageFilter data={staticData} onFilterChange={onFilterChange} loaded={loaded} />
