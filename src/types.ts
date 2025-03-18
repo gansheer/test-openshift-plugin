@@ -1,4 +1,4 @@
-import { K8sResourceKind } from "@openshift-console/dynamic-plugin-sdk";
+import { K8sResourceKind } from '@openshift-console/dynamic-plugin-sdk';
 
 export type CamelIntegrationIdentity = {
   name: string;
