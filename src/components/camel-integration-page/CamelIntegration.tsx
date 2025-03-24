@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Spinner } from '@patternfly/react-core';
 import { useParams } from 'react-router-dom-v5-compat';
-import { HorizontalNav } from '@openshift-console/dynamic-plugin-sdk';
+import { HorizontalNav, NamespaceBar } from '@openshift-console/dynamic-plugin-sdk';
 import { useCamelIntegration } from './useCamelIntegration';
 import { useCamelIntegrationTabs } from './useCamelIntegrationTabs';
 import CamelIntegrationTitle from './CamelIntegrationTitle';
@@ -38,6 +38,7 @@ const CamelIntegration: React.FC = () => {
 
   return (
     <>
+      <NamespaceBar isDisabled />
       <CamelIntegrationTitle name={name} namespace={namespace} />
       <HorizontalNav pages={pages} />
     </>
