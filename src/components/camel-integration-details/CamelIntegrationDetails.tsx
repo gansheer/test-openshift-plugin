@@ -60,11 +60,11 @@ const CamelIntegrationDetails: React.FC<CamelIntegrationDetailsProps> = ({ obj: 
             {camelInt.metadata.annotations?.[
               METADATA_ANNOTATION_CAMEL_QUARKUS_PLATFORM_VERSION
             ] && (
-                <TextContent>
-                  <strong>Quarkus Platform: </strong>{' '}
-                  {camelInt.metadata.annotations[METADATA_ANNOTATION_CAMEL_QUARKUS_PLATFORM_VERSION]}
-                </TextContent>
-              )}
+              <TextContent>
+                <strong>Quarkus Platform: </strong>{' '}
+                {camelInt.metadata.annotations[METADATA_ANNOTATION_CAMEL_QUARKUS_PLATFORM_VERSION]}
+              </TextContent>
+            )}
             {camelInt.metadata.annotations?.[METADATA_ANNOTATION_CAMEL_CEQ_VERSION] && (
               <TextContent>
                 <strong>Camel Quarkus: </strong>{' '}

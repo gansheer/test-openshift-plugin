@@ -38,7 +38,7 @@ const ResourcesRow: React.FC<RowProps<K8sResourceKind>> = ({ obj: camelInt, acti
     <>
       <TableData id="name" activeColumnIDs={activeColumnIDs}>
         <span className="co-resource-item co-resource-item--truncate">
-          <span className="co-m-resource-icon co-m-resource-secret" title="camelIntegration">
+          <span className="co-m-resource-icon co-m-resource-secret">
             C
           </span>
           <Link
